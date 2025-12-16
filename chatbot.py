@@ -9,7 +9,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 
 OPENAI_API_KEY = "<OPENAI_API_KEY>"
 
@@ -64,5 +64,5 @@ if file is not None:
             retriever=vector_store.as_retriever(),
             chain_type="stuff"
         )
-        output = chain.run(input_documents=match, question=question)
+        output = chain.run(input_documents=match, query=question)
         st.write(output)
