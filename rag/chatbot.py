@@ -42,31 +42,43 @@ if file is not None:
     )
     chunks = text_splitter.split_text(text)
 
-    # Generate embeddings
+    # RAG SETUP: Generate embeddings for semantic search
+    # Embeddings convert text chunks into numerical vectors for similarity search
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
-    # Create vector store
+    # RAG SETUP: Create vector store (FAISS) for efficient similarity search
+    # This stores the document chunks as vectors, enabling fast retrieval
     vector_store = FAISS.from_texts(chunks, embeddings)
 
     # Get user question
     question = st.text_input("Type your question here")
 
-    # Do similarity search
+    # =================================================
+    # RAG PIPELINE: Retrieval, Augmentation, Generation
+    # =================================================
     if question:
+        # RETRIEVAL: Search for relevant document chunks from the vector store
+        # This retrieves the most similar text chunks to the user's question
         match = vector_store.similarity_search(question)
 
-        # Output results
+        # Initialize the LLM for generation
         llm = ChatOpenAI(
             openai_api_key=OPENAI_API_KEY,
             temperature=0.8,
             max_tokens=500,
             model_name="gpt-3.5-turbo"
         )
-        # chain = load_qa_chain(llm, chain_type="stuff")
+        
+        # AUGMENTATION + GENERATION: RetrievalQA chain combines retrieval, augmentation, and generation
+        # - Retrieval: Uses the retriever to fetch relevant chunks (handled internally)
+        # - Augmentation: Combines retrieved documents with the query into a prompt
+        # - Generation: LLM generates the final answer based on the augmented prompt
         chain = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=vector_store.as_retriever(),
             chain_type="stuff"
         )
+        
+        # Execute the RAG pipeline: retrieval -> augmentation -> generation
         output = chain.run(input_documents=match, query=question)
         st.write(output)
