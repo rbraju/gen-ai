@@ -1,46 +1,133 @@
 # Simple Chat Bot
 
-### Env Setup
-1. Install below python and pip versions
-```
-[rajesh:~] which python
-/Users/rbraju/venvs/langchain-python3.11.14/bin/python
+A Streamlit-based chatbot application that uses LangChain and OpenAI to answer questions from uploaded PDF documents using RAG (Retrieval-Augmented Generation).
 
-[rbraju:~] python --version
-Python 3.11.14
+## Prerequisites
 
-[rbraju:~] pip --version
-pip 25.3 from /Users/rbraju/venvs/langchain-python3.11.14/lib/python3.11/site-packages/pip (python 3.11)
-[rbraju:~] 
-```
+- Python 3.11 or higher
+- pip (Python package manager)
 
-Create a new virtual env and activate it
-```
-[rbraju:~] python3 -m venv ~/venvs/langchain-python3.11.14
-[rbraju:~] source ~/venvs/langchain-python3.11.14/bin/activate
-(langchain-python3.11.14) [rbraju:~] 
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd gen-ai
 ```
 
-## Sanity check
-Run the below script to check the setup and imports are fine.
+### 2. Create a Virtual Environment
+
+Create and activate a virtual environment to isolate project dependencies:
+
+**On macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
-(langchain-python3.11.14) [rajesh:~/git/rbraju/gen-ai] python sanity-check.py 
-3.11.14 (main, Oct  9 2025, 16:16:55) [Clang 17.0.0 (clang-1700.4.4.1)]
+
+**On Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+Install all required packages from the `requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the root directory of the project:
+
+```bash
+touch .env
+```
+
+Add your OpenAI API key to the `.env` file:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+**Note:** Make sure to replace `your_openai_api_key_here` with your actual OpenAI API key. You can obtain one from [OpenAI's website](https://platform.openai.com/api-keys).
+
+### 5. Verify Setup
+
+Run the sanity check script to verify that all imports are working correctly:
+
+```bash
+python sanity-check.py
+```
+
+You should see output similar to:
+```
+3.11.x (main, ...) [...]
 ALL IMPORTS OK
-(langchain-python3.11.14) [rbraju:~/git/rbraju/gen-ai] 
 ```
 
-## Run the app
+## Running the Application
+
+Start the Streamlit chatbot application:
+
+```bash
+python -m streamlit run rag/chatbot.py
 ```
-(langchain-python3.11.14) [rajesh:~/git/rbraju/gen-ai] python -m streamlit run chatbot.py
-  You can now view your Streamlit app in your browser.
 
-  Local URL: http://localhost:8501
-  Network URL: http://192.168.1.249:8501
+The application will start and you should see output like:
 
-  For better performance, install the Watchdog module:
-
-  $ xcode-select --install
-  $ pip install watchdog
-(langchain-python3.11.14) [rbraju:~/git/rbraju/gen-ai] 
 ```
+You can now view your Streamlit app in your browser.
+
+Local URL: http://localhost:8501
+Network URL: http://192.168.x.x:8501
+```
+
+Open your browser and navigate to `http://localhost:8501` to use the chatbot.
+
+### Optional: Install Watchdog for Better Performance
+
+For better file watching performance (especially on macOS), you can install the watchdog module:
+
+**On macOS:**
+```bash
+xcode-select --install  # Install Xcode command line tools if not already installed
+pip install watchdog
+```
+
+**On Linux/Windows:**
+```bash
+pip install watchdog
+```
+
+## Usage
+
+1. Open the application in your browser (http://localhost:8501)
+2. Use the sidebar to upload a PDF file
+3. Once the PDF is uploaded, type your question in the text input field
+4. The chatbot will search through the document and provide an answer based on the content
+
+## Project Structure
+
+```
+gen-ai/
+├── config/              # Configuration files
+│   ├── settings.py      # Environment variable loading
+│   └── openai_client.py # OpenAI client setup
+├── prompt_engineering/  # Prompt engineering examples
+├── rag/                 # RAG (Retrieval-Augmented Generation) implementation
+│   └── chatbot.py       # Main Streamlit chatbot application
+├── sanity-check.py      # Setup verification script
+├── requirements.txt     # Python dependencies
+└── README.md           # This file
+```
+
+## Troubleshooting
+
+- **Import errors**: Make sure you've activated your virtual environment and installed all dependencies with `pip install -r requirements.txt`
+- **API key errors**: Verify that your `.env` file exists in the root directory and contains a valid `OPENAI_API_KEY`
+- **Streamlit not found**: Ensure streamlit is installed: `pip install streamlit`

@@ -11,7 +11,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from langchain_classic.chains import RetrievalQA
 
-OPENAI_API_KEY = "<OPENAI_API_KEY>"
+from config.settings import load_env, get_openai_api_key
+
+# Load environment variables and get API key
+load_env()
+OPENAI_API_KEY = get_openai_api_key()
 
 # upload PDF files
 st.header("My First Chatbot")
