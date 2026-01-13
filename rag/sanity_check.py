@@ -2,6 +2,7 @@ import sys
 print(sys.version)
 
 import streamlit as st
+from openai import OpenAI
 from PyPDF2 import PdfReader
 
 from langchain_community.chat_models import ChatOpenAI

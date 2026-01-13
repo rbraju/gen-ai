@@ -61,7 +61,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 Run the sanity check script to verify that all imports are working correctly:
 
 ```bash
-python sanity-check.py
+python rag/sanity_check.py
 ```
 
 You should see output similar to:
@@ -120,8 +120,8 @@ gen-ai/
 │   └── openai_client.py # OpenAI client setup
 ├── prompt_engineering/  # Prompt engineering examples
 ├── rag/                 # RAG (Retrieval-Augmented Generation) implementation
-│   └── chatbot.py       # Main Streamlit chatbot application
-├── sanity-check.py      # Setup verification script
+│   ├── chatbot.py       # Main Streamlit chatbot application
+│   └── sanity_check.py  # Setup verification script
 ├── requirements.txt     # Python dependencies
 └── README.md           # This file
 ```
